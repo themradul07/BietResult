@@ -5,9 +5,7 @@ const nextConfig: NextConfig = {
     "@sparticuz/chromium",
     "puppeteer-core",
   ],
-  experimental: {
-    turbo: false,
-  },
+  
 };
 
 export default nextConfig;
