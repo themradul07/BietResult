@@ -2,15 +2,13 @@ import { NextResponse } from "next/server";
 
 // Dynamic imports for env compatibility
 // const isDev = process.env.NODE_ENV === 'development';
-const isDev = false;
+
 
 let puppeteer: any, chromium: any;
-if (isDev) {
-  puppeteer = (await import('puppeteer')).default;
-} else {
+
   ({ default: puppeteer } = await import('puppeteer-core'));
   ({ default: chromium } = await import('@sparticuz/chromium'));
-}
+
 
 export const maxDuration = 120;
 
@@ -49,15 +47,15 @@ export async function GET(request: Request) {
       headless: 'new',
     };
 
-    if (!isDev) {
+    
       launchOptions.executablePath = await chromium.executablePath();
       launchOptions.defaultViewport = chromium.defaultViewport;
       launchOptions.args.push(...chromium.args);
-    }
+    
 
     browser = await puppeteer.launch(launchOptions);
     const page = await browser.newPage();
-    if (!isDev) await page.setViewport({ width: 1366, height: 768 });
+    await page.setViewport({ width: 1366, height: 768 });
 
     await page.goto("https://www.bietjhs.ac.in/result2019/GetResultodd.aspx", {
       waitUntil: "networkidle2",
